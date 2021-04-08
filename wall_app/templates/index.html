@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="{% static 'js/script.js' %}"></script>
+</head>
+<body>
+    <legend>
+        <h1>Registration</h1>
+        <form name="reg_form" action="/register" method="POST" id="reg_form">
+            {% csrf_token%}
+            <div>
+                <label>Username: </label>
+                <input type="text" name="username_form" id="reg_first">
+            </div>
+            <div>
+                <label>Date of Birth: </label>
+                <input type="date" name="birthday_form" id ="reg_dob">
+            </div>
+            <div>
+                <label>Email: </label>
+                <input type="text" name="email_form" id="reg_email">
+            </div>
+            <div>
+                <label>Password: </label>
+                <input type="password" name="password_form" id="reg_pw">
+            </div>
+            <div>
+                <label>Confirm Password: </label>
+                <input type="password" name="confirm_password" id="reg_pw_conf">
+            </div>
+            <div class = button>
+                <button type="submit">Register</button>
+            </div>
+        </form>
+    </legend>
+    <legend>
+        <h1>Login</h1>
+        <form name="log_form" action="/login" method="POST" id="log_form">
+            {% csrf_token%}
+            <div>
+                <label>Email: </label>
+                <input type="text" name="log_email" id="log_email">
+            </div>
+            <div>
+                <label>Password: </label>
+                <input type="password" name="log_pw" id="log_pw">
+            </div>
+                <div class = button>
+                <button type="submit">Login</button>
+            </div>
+        </form>
+    </legend>
+    <errors>
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </errors>
+</body>
+</html>

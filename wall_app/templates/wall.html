@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="welcome">
+        Success! Welcome {{selected_user.username}}!
+        <a href="/logout">Log Out</a>
+    </div>
+    <div class="create_message">
+        <form action="/create_message" method="post">
+            {% csrf_token %}
+            <textarea name="message_text_form" placeholder="Type Message Here"></textarea>
+            <button type="submit">Post Message To Wall!</button>
+        </form>
+    </div>
+    <div class="posted_messages">
+        {% for message in all_message %}
+            <h4>{{ message.user.username }} said: </h4> <p>{{ message.message_text }}</p>
+            {% if message.user.id == selected_user.id %}
+            <a href="/destroy_message/{{ message.id }}"><button>Delete Message</button></a>
+            {% endif %}
+            <div class="create_comment">
+                <form action="/create_comment/{{ message.id }}" method="post">
+                    {% csrf_token %}
+                    <textarea name="comment_text_form" placeholder="Type Comment Here"></textarea>
+                    <button type="submit">Post Comment To Message!</button>
+                </form>
+            </div>
+            <div class="comments">
+                <ol>
+                    {% for comment in message.comments.all %}
+                        <li><h5>{{ comment.user.username }} said: </h5> <p>{{ comment.comment_text }}</p></li>
+                    {% endfor %}
+                </ol>
+            </div>
+        {% endfor %}
+    </div>
+    <errors>
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </errors>
+</body>
+</html>
